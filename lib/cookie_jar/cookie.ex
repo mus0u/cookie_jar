@@ -31,7 +31,7 @@ defmodule CookieJar.Cookie do
   def new(name, value), do: %__MODULE__{name: name, value: value}
 
   @doc """
-  Return true if cookie2 is superceding cookie1. Only compare domain, path and name. 
+  Return true if cookie2 is superceding cookie1. Only compare domain, path and name.
   """
   @spec equal?(t(), t()) :: boolean()
   def equal?(cookie1, cookie2) do
@@ -176,6 +176,13 @@ defmodule CookieJar.Cookie do
 
       _ ->
         cookie
+    end
+  end
+
+  defp update_cookie(cookie, "expires", expires) do
+    case Timex.parse(expires, "{RFC1123}") do
+      {:ok, expires_at} -> %{cookie | expires: DateTime.to_unix(expires_at)}
+      _ -> cookie
     end
   end
 

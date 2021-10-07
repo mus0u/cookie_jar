@@ -43,6 +43,22 @@ defmodule CookieTest do
              )
   end
 
+  test "cookie with deprecated 'Expires' attribute" do
+    assert %Cookie{
+             domain: "example.com",
+             expires: 3600,
+             include_subdomain: false,
+             name: "YUMMYCOOKIE",
+             path: "",
+             secure: true,
+             value: "choco"
+           } =
+             Cookie.parse(
+               "YUMMYCOOKIE=choco; Expires=Thu, 01 Jan 1970 01:00:00 GMT; Path=/; SameSite=None; Secure",
+               URI.parse("https://example.com/whatever")
+             )
+  end
+
   test "http cookie attempt to be secure" do
     assert nil ==
              Cookie.parse(

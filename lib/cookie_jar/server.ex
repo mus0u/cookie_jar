@@ -94,7 +94,7 @@ defmodule CookieJar.Server do
     |> Enum.into(%{})
   end
 
-  # return all cookies the shall be returned to uri as a name => value map 
+  # return all cookies the shall be returned to uri as a name => value map
   defp all_matched(jar, uri) do
     uri
     |> all_domains()
